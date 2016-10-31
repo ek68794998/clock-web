@@ -1,0 +1,25 @@
+LICENSE           cleantext
+MAKEFILE          cleantext
+README            cleantext
+*.bs              cleantext
+*.css             cleantext
+*.csv             cleantext
+*.fakes           cleantext
+*.fakesconfig     cleantext
+*.gitattributes   cleantext
+*.gitconfig       cleantext
+*.gitignore       cleantext
+*.gitmodules      cleantext
+*.html            cleantext diff=html
+*.include         cleantext
+*.js              cleantext
+*.json            text eol=lf
+*.markdown        cleantext
+*.md              cleantext
+*.sh              text eol=lf
+*.svg             cleantext
+*.txt             cleantext
+*.xml             cleantext
+*.xsd             cleantext
+*.yml             cleantext
+.spec-data/**     text eol=lf
