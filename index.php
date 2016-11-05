@@ -3,6 +3,7 @@
 ?>
 <html>
 <head>
+	<title>Material Clock</title>
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700">
 	<link href="material-kit/css/bootstrap.min.css" rel="stylesheet" />
 	<link href="material-kit/css/material-kit.css" rel="stylesheet" />
