@@ -20,7 +20,7 @@ module.exports = function(options, webpackOptions) {
         + ("00" + (date.getSeconds())).slice(-2);
 
     var buildVersionMajor = "0";
-    var buildVersionMinor = "7";
+    var buildVersionMinor = "1";
     var buildVersionPatch = dateStamp;
     var buildVersion = `${buildVersionMajor}.${buildVersionMinor}.${buildVersionPatch}`;
 

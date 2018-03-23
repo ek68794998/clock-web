@@ -29,3 +29,19 @@
         }
     }
 }
+
+#site-header {
+    .brand {
+        font-family: "Lato";
+        font-weight: 700;
+    }
+}
+
+#site-main {
+    flex: 1;
+}
+
+#site-footer {
+    margin-top: 16px;
+    padding: 16px;
+}
