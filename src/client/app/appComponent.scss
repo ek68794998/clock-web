@@ -1,0 +1,31 @@
+@import "../assets/_dims.scss";
+
+%flex-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#app {
+    @extend %flex-container;
+    min-height: 100vh;
+
+    mat-sidenav-container, mat-sidenav-content {
+        @extend %flex-container;
+        flex: 1;
+    }
+
+    mat-sidenav {
+        min-width: 220px;
+
+        .mat-list-item {
+            font-size: 13px;
+            font-weight: 700;
+
+            .mat-icon {
+                color: #888;
+                color: rgba(0, 0, 0, 0.54);
+                margin-right: 8px;
+            }
+        }
+    }
+}

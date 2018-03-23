@@ -1,0 +1,27 @@
+<header id="site-header" class="mat-elevation-z3" style="z-index: 999">
+    <mat-toolbar color="primary">
+        <button class="hamburger" mat-icon-button (click)="sidenav.toggle()">
+            <mat-icon attr.aria-label="{{ 'menus.toggleMenu' | translate }}">menu</mat-icon>
+        </button>
+        <a mat-button class="brand" routerLink=".">{{ "app.name" | translate }}</a>
+        <a mat-button *ngFor="let option of menuOptions" routerLink="./{{ option.route }}">{{ option.label | translate }}</a>
+    </mat-toolbar>
+</header>
+<mat-sidenav-container>
+    <mat-sidenav #sidenav mode="over">
+        <mat-nav-list class="menu-content">
+            <a mat-list-item *ngFor="let option of menuOptions" routerLink="./{{ option.route }}">
+                <mat-icon mat-list-icon>{{ option.icon }}</mat-icon>
+                {{ option.label | translate }}
+            </a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <main id="site-main">
+            <router-outlet></router-outlet>
+        </main>
+        <footer id="site-footer">
+            &copy; 2018 Unission
+        </footer>
+    </mat-sidenav-content>
+</mat-sidenav-container>

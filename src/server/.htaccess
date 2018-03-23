@@ -1,0 +1,52 @@
+Options +FollowSymLinks
+Options +Indexes
+
+FileETag None
+
+<Files ~ "^\.htaccess">
+	Order allow,deny
+	Deny from all
+</Files>
+
+<IfModule mod_headers.c>
+	Header append Vary User-Agent
+	<FilesMatch "(app\.build\.js|\.jpe?g|\.png|\.ttf|\.eot|\.woff2?)$">
+		Header set Cache-Control "public, max-age=2592000"
+	</FilesMatch>
+	<FilesMatch "\.html$">
+		Header set Cache-Control "public, max-age=0"
+	</FilesMatch>
+</IfModule>
+
+<IfModule mod_mime.c>
+	# Set MIME types for fonts
+	AddType font/embedopentype .eot
+	AddType font/opentype .otf
+	AddType font/truetype .ttf
+	AddType application/font-woff .woff
+	AddType application/font-woff2 .woff2
+</IfModule>
+
+# GZIP compression (Fonts, HTML/XML, Text, CSS, JS)
+<IfModule mod_deflate.c>
+	<IfModule mod_filter.c>
+		AddOutputFilterByType DEFLATE font/embedopentype font/opentype font/truetype application/font-woff application/font-woff2 text/html text/plain text/xml text/css text/javascript application/javascript application/x-javascript
+	</IfModule>
+</IfModule>
+
+# Disable GZIP for older browsers
+<IfModule mod_setenvif.c>
+	BrowserMatch ^Mozilla/4 gzip-only-text/html
+	BrowserMatch ^Mozilla/4\.0[678] no-gzip
+	BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+</IfModule>
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+
+	RewriteRule ^index\.html$ - [L]
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule . /index.html [L]
+</IfModule>
