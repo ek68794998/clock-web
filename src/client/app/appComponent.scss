@@ -46,3 +46,19 @@
     margin-top: 16px;
     padding: 16px;
 }
+
+@media only screen and (max-width: ($responsive-width-min)) {
+    #site-header {
+        .mat-button + .mat-button {
+            display: none;
+        }
+    }
+}
+
+@media only screen and (min-width: ($responsive-width-min + 1px)) {
+    #site-header {
+        .hamburger {
+            display: none;
+        }
+    }
+}
