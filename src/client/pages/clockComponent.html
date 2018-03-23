@@ -1,0 +1,9 @@
+<div class="datetime">
+    <div class="time">
+        <span class="clock">{{ currentTime | date: "h:mm:ss" }}</span>
+        <span class="meridian">{{ currentTime | date: "a" }}</span>
+    </div>
+    <div class="date">
+        {{ currentTime | date: "MMM d yyyy" }}
+    </div>
+</div>

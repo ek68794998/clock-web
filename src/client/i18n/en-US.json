@@ -1,0 +1,13 @@
+{
+    "app": {
+        "name": "Jikan"
+    },
+    "menus": {
+        "toggleMenu": "Toggle menu",
+        "clock": "Clock",
+        "timezones": "Time zones",
+        "timer": "Timer",
+        "stopwatch": "Stopwatch",
+        "settings": "Settings"
+    }
+}

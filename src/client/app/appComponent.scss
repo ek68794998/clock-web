@@ -1,0 +1,80 @@
+@import "../assets/_dims.scss";
+
+%width-limited {
+    margin: 0 auto;
+    max-width: 1600px;
+}
+
+%flex-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#app {
+    @extend %flex-container;
+    min-height: 100vh;
+
+    mat-sidenav-container, mat-sidenav-content {
+        @extend %flex-container;
+        flex: 1;
+    }
+
+    mat-sidenav {
+        min-width: 220px;
+
+        .mat-list-item {
+            font-size: 13px;
+            font-weight: 700;
+
+            .mat-icon {
+                margin-right: 8px;
+            }
+        }
+    }
+
+    .content-width {
+        @extend %width-limited;
+        padding: 0 6vw;
+    }
+}
+
+#site-header {
+    .brand {
+        font: 700 22px "Lato";
+    }
+
+    .flex-spacer {
+        flex: 1;
+    }
+}
+
+#site-main {
+    flex: 1;
+    margin-top: 16px;
+
+    a:hover {
+        text-decoration: underline;
+    }
+}
+
+#site-footer {
+    background: #fff2;
+    margin-top: 16px;
+    padding: 16px;
+}
+
+@media only screen and (max-width: ($responsive-width-min)) {
+    #site-header {
+        .links {
+            display: none;
+        }
+    }
+}
+
+@media only screen and (min-width: ($responsive-width-min + 1px)) {
+    #site-header {
+        .hamburger {
+            display: none;
+        }
+    }
+}

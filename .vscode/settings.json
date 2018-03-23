@@ -1,0 +1,14 @@
+{
+    "files.exclude": {
+        "server.js": true,
+        "stats.json": true,
+        "bower_components": true,
+        "dist": true,
+        "jspm_packages": true,
+        "node_modules": true,
+        "res": true,
+        "typings": true,
+        "wwwroot": true,
+        "npm-debug.log": true
+    }
+}
