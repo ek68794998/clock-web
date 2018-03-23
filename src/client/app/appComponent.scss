@@ -22,8 +22,6 @@
             font-weight: 700;
 
             .mat-icon {
-                color: #888;
-                color: rgba(0, 0, 0, 0.54);
                 margin-right: 8px;
             }
         }
@@ -38,6 +36,10 @@
 
 #site-main {
     flex: 1;
+
+    a:hover {
+        text-decoration: underline;
+    }
 }
 
 #site-footer {

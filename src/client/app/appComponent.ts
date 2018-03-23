@@ -21,27 +21,27 @@ export class AppComponent {
         {
             route: "clock",
             label: "menus.clock",
-            icon: "",
+            icon: "access_time",
         },
         {
             route: "timezones",
             label: "menus.timezones",
-            icon: "",
+            icon: "language",
         },
         {
             route: "timer",
             label: "menus.timer",
-            icon: "",
+            icon: "hourglass_empty",
         },
         {
             route: "stopwatch",
             label: "menus.stopwatch",
-            icon: "",
+            icon: "timer",
         },
         {
             route: "settings",
             label: "menus.settings",
-            icon: "",
+            icon: "settings",
         },
     ];
 
