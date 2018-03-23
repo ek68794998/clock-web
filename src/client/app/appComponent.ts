@@ -23,6 +23,7 @@ export class AppComponent {
             label: "menus.clock",
             icon: "access_time",
         },
+        /* TODO
         {
             route: "timezones",
             label: "menus.timezones",
@@ -43,6 +44,7 @@ export class AppComponent {
             label: "menus.settings",
             icon: "settings",
         },
+        */
     ];
 
     private get menuKeys(): string[] {

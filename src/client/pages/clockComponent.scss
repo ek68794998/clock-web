@@ -1,1 +1,26 @@
 @import "../assets/_dims.scss";
+
+.datetime {
+    align-items: baseline;
+    display: flex;
+
+    .time {
+        flex: 1;
+
+        .clock {
+            font-size: 10vw;
+            font-weight: 100;
+        }
+
+        .meridian {
+            margin-left: 16px;
+            font-size: 4vw;
+            font-weight: 300;
+        }
+    }
+
+    .date {
+        font-size: 3vw;
+        font-weight: 100;
+    }
+}

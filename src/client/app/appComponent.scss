@@ -1,5 +1,10 @@
 @import "../assets/_dims.scss";
 
+%width-limited {
+    margin: 0 auto;
+    max-width: 1600px;
+}
+
 %flex-container {
     display: flex;
     flex-direction: column;
@@ -26,16 +31,26 @@
             }
         }
     }
+
+    .content-width {
+        @extend %width-limited;
+        padding: 0 6vw;
+    }
 }
 
 #site-header {
     .brand {
         font: 700 22px "Lato";
     }
+
+    .flex-spacer {
+        flex: 1;
+    }
 }
 
 #site-main {
     flex: 1;
+    margin-top: 16px;
 
     a:hover {
         text-decoration: underline;
@@ -43,13 +58,14 @@
 }
 
 #site-footer {
+    background: #fff2;
     margin-top: 16px;
     padding: 16px;
 }
 
 @media only screen and (max-width: ($responsive-width-min)) {
     #site-header {
-        .mat-button + .mat-button {
+        .links {
             display: none;
         }
     }

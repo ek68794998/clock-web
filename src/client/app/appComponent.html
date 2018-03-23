@@ -4,7 +4,10 @@
             <mat-icon attr.aria-label="{{ 'menus.toggleMenu' | translate }}">menu</mat-icon>
         </button>
         <a mat-button class="brand" routerLink=".">{{ "app.name" | translate }}</a>
-        <a mat-button *ngFor="let option of menuOptions" routerLink="./{{ option.route }}">{{ option.label | translate }}</a>
+        <span class="flex-spacer"></span>
+        <div class="links">
+            <a mat-button *ngFor="let option of menuOptions" routerLink="./{{ option.route }}">{{ option.label | translate }}</a>
+        </div>
     </mat-toolbar>
 </header>
 <mat-sidenav-container>
@@ -18,10 +21,14 @@
     </mat-sidenav>
     <mat-sidenav-content>
         <main id="site-main">
-            <router-outlet></router-outlet>
+            <div class="content-width">
+                <router-outlet></router-outlet>
+            </div>
         </main>
         <footer id="site-footer">
-            &copy; 2018 Unission
+            <div class="content-width">
+                &copy; 2018 Unission
+            </div>
         </footer>
     </mat-sidenav-content>
 </mat-sidenav-container>
