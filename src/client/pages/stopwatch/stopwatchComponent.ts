@@ -35,10 +35,7 @@ export class StopwatchComponent {
         let duration = moment.duration(millis);
 
         let hours: number = duration.asHours();
-        this.stopwatchHours =
-            (hours > 0)
-                ? Math.floor(duration.asHours())
-                : 0;
+        this.stopwatchHours = Math.floor(duration.asHours());
 
         let minutes = duration.asMinutes();
         this.stopwatchMinutes =
