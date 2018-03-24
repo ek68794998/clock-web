@@ -9,6 +9,8 @@ import * as moment from "moment";
     styleUrls: [ "clockComponent.scss" ],
 })
 export class ClockComponent implements OnInit {
+    private static readonly bufferMillis: number = 3;
+
     private static readonly millisInSecond: number = 1000;
 
     private currentTime: Date = new Date();
@@ -23,7 +25,7 @@ export class ClockComponent implements OnInit {
 
     private startUpdateLoop(): void {
         let millisUntilSecond: number = ClockComponent.millisInSecond - new Date().getMilliseconds();
-        setTimeout(() => { this.updateTicks(); this.startUpdateLoop(); }, millisUntilSecond);
+        setTimeout(() => { this.updateTicks(); this.startUpdateLoop(); }, millisUntilSecond + ClockComponent.bufferMillis);
     }
 
     private updateTicks(): void {
