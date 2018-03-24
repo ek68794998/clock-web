@@ -3,11 +3,25 @@
         "name": "Jikan"
     },
     "menus": {
-        "toggleMenu": "Toggle menu",
-        "clock": "Clock",
-        "timezones": "Time zones",
-        "timer": "Timer",
-        "stopwatch": "Stopwatch",
-        "settings": "Settings"
+        "toggleMenu": "Toggle menu"
+    },
+    "clock": {
+        "title": "Clock"
+    },
+    "timezones": {
+        "title": "Time zones"
+    },
+    "timer": {
+        "title": "Timer"
+    },
+    "stopwatch": {
+        "title": "Stopwatch",
+        "start": "Start",
+        "stop": "Stop",
+        "lap": "Lap",
+        "reset": "Reset"
+    },
+    "settings": {
+        "title": "Settings"
     }
 }
