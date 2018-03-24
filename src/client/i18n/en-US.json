@@ -16,8 +16,11 @@
     },
     "stopwatch": {
         "title": "Stopwatch",
+        "hourUnit": "h",
+        "minuteUnit": "m",
+        "secondUnit": "s",
         "start": "Start",
-        "stop": "Stop",
+        "stop": "Pause",
         "lap": "Lap",
         "reset": "Reset"
     },

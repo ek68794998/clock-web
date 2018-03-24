@@ -6,47 +6,40 @@ import * as moment from "moment";
 
 @Injectable()
 export class StopwatchService {
-    private startDate: Date = null;
+    private lapMillis: number[] = [];
+
+    private onTickSubscribers: Subscriber<number>[] = [];
 
     private priorTimedMillis: number = 0;
 
-    private stopwatchInterval: any = null;
+    private startDate: Date = null;
 
-    private onTickSubscribers: Subscriber<number>[] = [];
+    private stopwatchInterval: any = null;
 
     constructor() {
     }
 
-    public startStopwatch(): void {
-        if (this.stopwatchInterval) {
-            return;
-        }
-
-        this.startDate = new Date();
-
-        this.stopwatchInterval =
-            setInterval(() => {
-                let startTime = moment(this.startDate);
-                let now = moment();
-
-                let stopwatchMillis: number = this.priorTimedMillis + now.diff(startTime);
-
-                this.onTickSubscribers.forEach(s => s.next(stopwatchMillis));
-            },
-            1);
+    public get isRunning(): boolean {
+        return !!this.stopwatchInterval;
     }
 
-    public stopStopwatch(): void {
-        if (this.stopwatchInterval) {
-            clearInterval(this.stopwatchInterval);
-            this.stopwatchInterval = null;
+    public get laps(): number[] {
+        return this.lapMillis.slice(0);
+    }
 
-            let startTime = moment(this.startDate);
-            let now = moment();
-
-            this.priorTimedMillis += now.diff(startTime);
-            this.startDate = null;
+    public getElapsedMillis(): number {
+        if (!this.startDate) {
+            return 0;
         }
+
+        let startTime = moment(this.startDate);
+        let now = moment();
+
+        return this.priorTimedMillis + now.diff(startTime);
+    }
+
+    public lap(): void {
+        this.lapMillis.push(this.getElapsedMillis());
     }
 
     public onTick(): Observable<number> {
@@ -66,5 +59,40 @@ export class StopwatchService {
                 },
             };
         });
+    }
+
+    public reset(): void {
+        this.stop();
+        this.startDate = null;
+        this.priorTimedMillis = 0;
+        this.lapMillis = [];
+
+        this.onTickSubscribers.forEach(s => s.next(0));
+    }
+
+    public start(): void {
+        if (this.stopwatchInterval) {
+            return;
+        }
+
+        this.startDate = new Date();
+
+        this.stopwatchInterval =
+            setInterval(
+                () => this.onTickSubscribers.forEach(s => s.next(this.getElapsedMillis())),
+                1);
+    }
+
+    public stop(): void {
+        if (this.stopwatchInterval) {
+            clearInterval(this.stopwatchInterval);
+            this.stopwatchInterval = null;
+
+            let startTime = moment(this.startDate);
+            let now = moment();
+
+            this.priorTimedMillis += now.diff(startTime);
+            this.startDate = null;
+        }
     }
 }

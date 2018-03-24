@@ -1,3 +1,28 @@
-<button (click)="stopwatchService.startStopwatch()">Start</button>
-<button (click)="stopwatchService.stopStopwatch()">Stop</button>
-<span>{{ stopwatchMillis }}</span>
+<div class="display">
+    <div class="stopwatch">
+        <div class="hours" *ngIf="stopwatchHours">
+            <span class="number">{{ stopwatchHours }}</span>
+            <span class="label">{{ "stopwatch.hourUnit" | translate }}</span>
+        </div>
+        <div class="minutes" *ngIf="stopwatchMinutes">
+            <span class="number">{{ stopwatchMinutes }}</span>
+            <span class="label">{{ "stopwatch.minuteUnit" | translate }}</span>
+        </div>
+        <div class="seconds" *ngIf="stopwatchSeconds">
+            <span class="number">{{ stopwatchSeconds }}</span>
+            <span class="label">{{ "stopwatch.secondUnit" | translate }}</span>
+        </div>
+        <div class="milliseconds" *ngIf="stopwatchMilliseconds">
+            <span class="number">{{ stopwatchMilliseconds }}</span>
+        </div>
+    </div>
+    <div class="actions">
+        <button mat-button *ngIf="!stopwatchService.isRunning" (click)="stopwatchService.start(); false">{{ "stopwatch.start" | translate }}</button>
+        <button mat-button *ngIf="!stopwatchService.isRunning" (click)="stopwatchService.reset(); false">{{ "stopwatch.reset" | translate }}</button>
+        <button mat-button *ngIf="stopwatchService.isRunning" (click)="stopwatchService.lap(); false">{{ "stopwatch.lap" | translate }}</button>
+        <button mat-button *ngIf="stopwatchService.isRunning" (click)="stopwatchService.stop(); false">{{ "stopwatch.stop" | translate }}</button>
+    </div>
+</div>
+<div class="laps">
+    {{ stopwatchService.laps }}
+</div>
