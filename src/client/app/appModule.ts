@@ -16,6 +16,7 @@ import {
 
 import {
     MatButtonModule,
+    MatCardModule,
     MatIconModule,
     MatListModule,
     MatSidenavModule,
@@ -23,16 +24,45 @@ import {
 } from "@angular/material";
 
 import { AppComponent } from "./appComponent";
-import { ClockComponent } from "../pages/clockComponent";
+import { StopwatchService } from "../services/stopwatchService";
+import { ClockComponent } from "../pages/clock/clockComponent";
+import { SettingsComponent } from "../pages/settings/settingsComponent";
+import { StopwatchComponent } from "../pages/stopwatch/stopwatchComponent";
+import { TimerComponent } from "../pages/timer/timerComponent";
+import { TimeZonesComponent } from "../pages/timezones/timeZonesComponent";
 
 const isDebug: boolean = (process.env.NODE_ENV === "dev");
 const appRoutes: Routes = [
     {
-        path: "",
+        path: "clock",
         pathMatch: "full",
         component: ClockComponent,
     },
-    { path: "**", redirectTo: "" },
+    /*
+    {
+        path: "timezones",
+        pathMatch: "full",
+        component: TimeZonesComponent,
+    },
+    {
+        path: "timer",
+        pathMatch: "full",
+        component: TimerComponent,
+    },
+    */
+    {
+        path: "stopwatch",
+        pathMatch: "full",
+        component: StopwatchComponent,
+    },
+    /*
+    {
+        path: "settings",
+        pathMatch: "full",
+        component: SettingsComponent,
+    },
+    */
+    { path: "**", redirectTo: "clock" },
 ];
 
 export function getBaseHref(platformLocation: PlatformLocation): string {
@@ -63,6 +93,7 @@ export function createTranslateLoader(http: HttpClient, baseHref: string) {
             },
         }),
         MatButtonModule,
+        MatCardModule,
         MatIconModule,
         MatListModule,
         MatSidenavModule,
@@ -71,6 +102,10 @@ export function createTranslateLoader(http: HttpClient, baseHref: string) {
     declarations: [
         AppComponent,
         ClockComponent,
+        SettingsComponent,
+        StopwatchComponent,
+        TimerComponent,
+        TimeZonesComponent,
     ],
     providers: [
         {
@@ -78,6 +113,7 @@ export function createTranslateLoader(http: HttpClient, baseHref: string) {
             useFactory: getBaseHref,
             deps: [ PlatformLocation ],
         },
+        StopwatchService,
         DecimalPipe,
     ],
     bootstrap: [ AppComponent ],

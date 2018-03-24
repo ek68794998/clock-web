@@ -20,28 +20,30 @@ export class AppComponent {
     private readonly menuOptions: any[] = [
         {
             route: "clock",
-            label: "menus.clock",
+            label: "clock.title",
             icon: "access_time",
         },
-        /* TODO
+        /*
         {
             route: "timezones",
-            label: "menus.timezones",
+            label: "timezones.title",
             icon: "language",
         },
         {
             route: "timer",
-            label: "menus.timer",
+            label: "timer.title",
             icon: "hourglass_empty",
         },
+        */
         {
             route: "stopwatch",
-            label: "menus.stopwatch",
+            label: "stopwatch.title",
             icon: "timer",
         },
+        /*
         {
             route: "settings",
-            label: "menus.settings",
+            label: "settings.title",
             icon: "settings",
         },
         */

@@ -1,0 +1,55 @@
+@import "../../assets/_dims.scss";
+
+.display {
+    .hours {
+        font-size: 3vw;
+        font-weight: 100;
+    }
+
+    .minutes {
+        font-size: 3vw;
+        font-weight: 100;
+    }
+
+    .seconds {
+        font-size: 3vw;
+        font-weight: 100;
+    }
+
+    .milliseconds {
+        font-size: 2vw;
+        font-weight: 100;
+    }
+
+    span .label {
+        font-size: 40%;
+        font-weight: 500;
+    }
+}
+
+.laps {
+    margin-top: 16px;
+
+    mat-card-content {
+        font-size: 150%;
+    }
+
+    .index {
+        display: inline-block;
+        opacity: 0.3;
+        width: 40px;
+    }
+
+    span {
+        margin-right: 8px;
+
+        .label {
+            font-size: 80%;
+            margin-left: 3px;
+        }
+    }
+
+    .milliseconds {
+        font-size: 90%;
+    }
+}
