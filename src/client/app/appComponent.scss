@@ -2,7 +2,7 @@
 
 %width-limited {
     margin: 0 auto;
-    max-width: 1600px;
+    max-width: $viewport-width-max;
 }
 
 %flex-container {
@@ -34,7 +34,7 @@
 
     .content-width {
         @extend %width-limited;
-        padding: 0 6vw;
+        padding: 0 $viewport-horizontal-padding;
     }
 }
 

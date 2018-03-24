@@ -1,5 +1,9 @@
 @import "../../assets/_dims.scss";
 
+$clock-size: 13vw;
+$meridian-size: 5vw;
+$date-size: 4vw;
+
 .datetime {
     align-items: baseline;
     display: flex;
@@ -8,19 +12,37 @@
         flex: 1;
 
         .clock {
-            font-size: 10vw;
+            font-size: $clock-size;
             font-weight: 100;
         }
 
         .meridian {
             margin-left: 16px;
-            font-size: 4vw;
+            font-size: $meridian-size;
             font-weight: 300;
         }
     }
 
     .date {
-        font-size: 3vw;
+        font-size: $date-size;
         font-weight: 100;
+    }
+}
+
+@media only screen and (min-width: $viewport-width-max) {
+    .datetime {
+        .time {
+            .clock {
+                font-size: ($viewport-width-max * ($clock-size / 100vw));
+            }
+
+            .meridian {
+                font-size: ($viewport-width-max * ($meridian-size / 100vw));
+            }
+        }
+
+        .date {
+            font-size: ($viewport-width-max * ($date-size / 100vw));
+        }
     }
 }

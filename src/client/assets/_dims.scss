@@ -1,4 +1,9 @@
-$viewport-width-min: 460px;
+$viewport-horizontal-padding: 16px;
+$viewport-width-min: 460px + $viewport-horizontal-padding;
+$viewport-width-max: 1600px + $viewport-horizontal-padding;
+$viewport-horizontal-inset: 6vw;
+$page-width-max: ($viewport-width-max / (1.0 - 2 * $viewport-horizontal-inset / 100vw));
+
 $responsive-width-min: 768px;
 $responsive-width-med: 1400px;
 $responsive-width-max: 1900px;
