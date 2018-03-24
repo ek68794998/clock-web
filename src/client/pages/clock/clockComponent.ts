@@ -20,6 +20,7 @@ export class ClockComponent implements OnInit {
     ngOnInit(): void {
         let millisUntilSecond: number = ClockComponent.millisInSecond - new Date().getMilliseconds();
         setTimeout(() => {
+            this.updateTicks();
             setInterval(() => this.updateTicks(), ClockComponent.millisInSecond);
         }, millisUntilSecond);
     }
