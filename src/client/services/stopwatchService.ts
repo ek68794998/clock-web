@@ -12,7 +12,7 @@ export class StopwatchService {
 
     private stopwatchInterval: any = null;
 
-    private onStopwatchTickSubscribers: Subscriber<number>[] = [];
+    private onTickSubscribers: Subscriber<number>[] = [];
 
     constructor() {
     }
@@ -31,7 +31,7 @@ export class StopwatchService {
 
                 let stopwatchMillis: number = this.priorTimedMillis + now.diff(startTime);
 
-                this.onStopwatchTickSubscribers.forEach(s => s.next(stopwatchMillis));
+                this.onTickSubscribers.forEach(s => s.next(stopwatchMillis));
             },
             1);
     }
@@ -49,20 +49,20 @@ export class StopwatchService {
         }
     }
 
-    public onStopwatchTick(): Observable<number> {
+    public onTick(): Observable<number> {
         return new Observable(observer => {
-            this.onStopwatchTickSubscribers.push(observer);
+            this.onTickSubscribers.push(observer);
 
             return {
                 unsubscribe() {
-                    let observerIndex: number = this.onStopwatchTickSubscribers.indexOf(observer);
+                    let observerIndex: number = this.onTickSubscribers.indexOf(observer);
 
                     if (observerIndex === -1) {
                         console.error("Observer attempted to unsubscribe but was not found in subscriptions");
                         return;
                     }
 
-                    this.onStopwatchTickSubscribers.splice(observerIndex, 1);
+                    this.onTickSubscribers.splice(observerIndex, 1);
                 },
             };
         });

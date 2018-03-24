@@ -12,7 +12,7 @@ export class StopwatchComponent {
 
     constructor(private stopwatchService: StopwatchService) {
         stopwatchService
-            .onStopwatchTick()
+            .onTick()
             .subscribe(millis => this.stopwatchMillis = millis);
     }
 }
