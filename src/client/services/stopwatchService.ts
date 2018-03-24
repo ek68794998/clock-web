@@ -39,7 +39,10 @@ export class StopwatchService {
     }
 
     public lap(): void {
-        this.lapMillis.push(this.getElapsedMillis());
+        let currentLapMillis: number = this.getElapsedMillis();
+        this.lapMillis.forEach(millis => currentLapMillis -= millis);
+
+        this.lapMillis.push(currentLapMillis);
     }
 
     public onTick(): Observable<number> {

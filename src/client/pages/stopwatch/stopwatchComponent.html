@@ -1,28 +1,33 @@
 <div class="display">
-    <div class="stopwatch">
+    <div class="stopwatch" *ngIf="stopwatchTime">
         <div class="hours" *ngIf="stopwatchHours">
-            <span class="number">{{ stopwatchHours }}</span>
+            <span class="number">{{ stopwatchTime.hours }}</span>
             <span class="label">{{ "stopwatch.hourUnit" | translate }}</span>
         </div>
         <div class="minutes" *ngIf="stopwatchMinutes">
-            <span class="number">{{ stopwatchMinutes }}</span>
+            <span class="number">{{ stopwatchTime.minutes }}</span>
             <span class="label">{{ "stopwatch.minuteUnit" | translate }}</span>
         </div>
         <div class="seconds">
-            <span class="number">{{ stopwatchSeconds }}</span>
+            <span class="number">{{ stopwatchTime.seconds }}</span>
             <span class="label">{{ "stopwatch.secondUnit" | translate }}</span>
         </div>
         <div class="milliseconds">
-            <span class="number">{{ stopwatchMilliseconds }}</span>
+            <span class="number">{{ stopwatchTime.milliseconds | number: "3.0-0" }}</span>
         </div>
     </div>
     <div class="actions">
-        <button mat-button *ngIf="!stopwatchService.isRunning" (click)="stopwatchService.start(); false">{{ "stopwatch.start" | translate }}</button>
-        <button mat-button *ngIf="!stopwatchService.isRunning" (click)="stopwatchService.reset(); false">{{ "stopwatch.reset" | translate }}</button>
-        <button mat-button *ngIf="stopwatchService.isRunning" (click)="stopwatchService.lap(); false">{{ "stopwatch.lap" | translate }}</button>
-        <button mat-button *ngIf="stopwatchService.isRunning" (click)="stopwatchService.stop(); false">{{ "stopwatch.stop" | translate }}</button>
+        <button mat-button *ngIf="!stopwatchService.isRunning" (click)="startStopwatch(); false">{{ "stopwatch.start" | translate }}</button>
+        <button mat-button *ngIf="!stopwatchService.isRunning" (click)="resetStopwatch(); false">{{ "stopwatch.reset" | translate }}</button>
+        <button mat-button *ngIf="stopwatchService.isRunning" (click)="lapStopwatch(); false">{{ "stopwatch.lap" | translate }}</button>
+        <button mat-button *ngIf="stopwatchService.isRunning" (click)="stopStopwatch(); false">{{ "stopwatch.stop" | translate }}</button>
     </div>
 </div>
 <div class="laps">
-    {{ stopwatchService.laps }}
+    <div *ngFor="let lap of stopwatchLaps">
+        {{ lap.hours }}{{ "stopwatch.hourUnit" | translate }}
+        {{ lap.minutes }}{{ "stopwatch.minuteUnit" | translate }}
+        {{ lap.seconds }}{{ "stopwatch.secondUnit" | translate }}
+        {{ lap.milliseconds }}
+    </div>
 </div>
