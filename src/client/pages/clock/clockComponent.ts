@@ -18,14 +18,16 @@ export class ClockComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.startUpdateLoop();
+    }
+
+    private startUpdateLoop(): void {
         let millisUntilSecond: number = ClockComponent.millisInSecond - new Date().getMilliseconds();
-        setTimeout(() => {
-            this.updateTicks();
-            setInterval(() => this.updateTicks(), ClockComponent.millisInSecond);
-        }, millisUntilSecond);
+        setTimeout(() => { this.updateTicks(); this.startUpdateLoop(); }, millisUntilSecond);
     }
 
     private updateTicks(): void {
         this.currentTime = new Date();
+        console.log("Tick millis:", new Date().getMilliseconds());
     }
 }
