@@ -29,6 +29,10 @@ $date-size: 4vw;
     }
 }
 
+.world-clocks {
+    margin-top: $standard-padding;
+}
+
 @media only screen and (min-width: $viewport-width-max) {
     .datetime {
         .time {

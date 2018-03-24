@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 
-import * as moment from "moment";
+import * as moment from "moment-timezone";
 
 @Component({
     moduleId: `${module.id}`,
@@ -13,13 +13,30 @@ export class ClockComponent implements OnInit {
 
     private static readonly millisInSecond: number = 1000;
 
-    private currentTime: Date = new Date();
+    private currentTime: Date;
+
+    private currentTimeZone: string;
+
+    private worldClocks: { [key: string]: moment.Moment } = {};
+
+    private get timeZones(): string[] {
+        return Object.keys(this.worldClocks);
+    }
 
     constructor() {
         // TODO Load real gov't time from: https://www.time.gov/actualtime.cgi?disablecache=1521781911578&__lzbc__=tsemd5
     }
 
     ngOnInit(): void {
+        this.currentTime = new Date();
+        this.currentTimeZone = moment.tz.guess();
+
+        let now = moment.tz(this.currentTime, this.currentTimeZone);
+
+        [ "Etc/UTC", "Asia/Tokyo", "America/Sao_Paulo" ].forEach(timeZoneName => {
+            this.worldClocks[timeZoneName] = moment(now.tz(timeZoneName));
+        });
+
         this.startUpdateLoop();
     }
 
@@ -29,6 +46,13 @@ export class ClockComponent implements OnInit {
     }
 
     private updateTicks(): void {
-        this.currentTime = new Date();
+        let now: Date = new Date();
+        let diff: number = now.getTime() - this.currentTime.getTime();
+
+        this.currentTime = now;
+        Object.keys(this.worldClocks).forEach(key => {
+            let m: moment.Moment = this.worldClocks[key];
+            this.worldClocks[key] = m.add(diff, "ms");
+        });
     }
 }

@@ -1,9 +1,26 @@
-<div class="datetime">
-    <div class="time">
-        <span class="clock">{{ currentTime | date: "h:mm:ss" }}</span>
-        <span class="meridian">{{ currentTime | date: "a" }}</span>
+<div>
+    <div class="datetime">
+        <div class="time">
+            <span class="clock">{{ currentTime | date: "h:mm:ss" }}</span>
+            <span class="meridian">{{ currentTime | date: "a" }}</span>
+        </div>
+        <div class="date">
+            {{ currentTime | date: "MMM d yyyy" }}
+        </div>
     </div>
-    <div class="date">
-        {{ currentTime | date: "MMM d yyyy" }}
+    <div>
+        {{ currentTimeZone }}
     </div>
+</div>
+<div class="world-clocks">
+    <mat-card>
+        <mat-card-content>
+            <p *ngFor="let timeZone of timeZones">
+                <span class="abbr">{{ worldClocks[timeZone].format("z") }}</span>
+                <span class="name">{{ timeZone }}</span>
+                <span class="offset">{{ worldClocks[timeZone].format("Z") }}</span>
+                <span class="time">{{ worldClocks[timeZone].format("h:mm:ss a") }}</span>
+            </p>
+        </mat-card-content>
+    </mat-card>
 </div>

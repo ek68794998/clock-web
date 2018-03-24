@@ -6,13 +6,13 @@ import { StopwatchService } from "../../services/stopwatchService";
 import * as moment from "moment";
 
 class StopwatchTime {
-    hours: number = 0;
+    public hours: number = 0;
 
-    minutes: number = 0;
+    public minutes: number = 0;
 
-    seconds: number = 0;
+    public seconds: number = 0;
 
-    milliseconds: number = 0;
+    public milliseconds: number = 0;
 }
 
 @Component({
