@@ -28,6 +28,5 @@ export class ClockComponent implements OnInit {
 
     private updateTicks(): void {
         this.currentTime = new Date();
-        console.log("Tick millis:", new Date().getMilliseconds());
     }
 }
