@@ -9,6 +9,6 @@
         "res": true,
         "typings": true,
         "wwwroot": true,
-        "npm-debug.log": true
+        "npm-debug.log*": true
     }
 }
