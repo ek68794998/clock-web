@@ -37,6 +37,7 @@ export class StopwatchComponent {
 
     constructor(private stopwatchService: StopwatchService, private translate: TranslateService) {
         this.updateStopwatch(this.stopwatchMillis = this.stopwatchService.getElapsedMillis());
+        this.updateLapDisplay();
 
         stopwatchService
             .onTick()
@@ -59,16 +60,7 @@ export class StopwatchComponent {
 
     private lapStopwatch(): void {
         this.stopwatchService.lap();
-
-        let lapValues: StopwatchTime[] = [];
-        this.stopwatchService.laps.forEach(lapMillis => {
-            let lap = StopwatchComponent.getStopwatchTime(lapMillis);
-            lapValues.push(lap);
-
-            console.log(lapMillis, lap);
-        });
-
-        this.stopwatchLaps = lapValues;
+        this.updateLapDisplay();
     }
 
     private resetStopwatch(): void {
@@ -83,6 +75,16 @@ export class StopwatchComponent {
 
     private stopStopwatch(): void {
         this.stopwatchService.stop();
+    }
+
+    private updateLapDisplay(): void {
+        let lapValues: StopwatchTime[] = [];
+        this.stopwatchService.laps.forEach(lapMillis => {
+            let lap = StopwatchComponent.getStopwatchTime(lapMillis);
+            lapValues.push(lap);
+        });
+
+        this.stopwatchLaps = lapValues;
     }
 
     private updateStopwatch(millis: number): void {

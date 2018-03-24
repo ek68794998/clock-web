@@ -16,6 +16,7 @@ import {
 
 import {
     MatButtonModule,
+    MatCardModule,
     MatIconModule,
     MatListModule,
     MatSidenavModule,
@@ -92,6 +93,7 @@ export function createTranslateLoader(http: HttpClient, baseHref: string) {
             },
         }),
         MatButtonModule,
+        MatCardModule,
         MatIconModule,
         MatListModule,
         MatSidenavModule,

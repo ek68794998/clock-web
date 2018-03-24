@@ -1,33 +1,47 @@
 <div class="display">
-    <div class="stopwatch" *ngIf="stopwatchTime">
-        <div class="hours" *ngIf="stopwatchHours">
-            <span class="number">{{ stopwatchTime.hours }}</span>
-            <span class="label">{{ "stopwatch.hourUnit" | translate }}</span>
-        </div>
-        <div class="minutes" *ngIf="stopwatchMinutes">
-            <span class="number">{{ stopwatchTime.minutes }}</span>
-            <span class="label">{{ "stopwatch.minuteUnit" | translate }}</span>
-        </div>
-        <div class="seconds">
-            <span class="number">{{ stopwatchTime.seconds }}</span>
-            <span class="label">{{ "stopwatch.secondUnit" | translate }}</span>
-        </div>
-        <div class="milliseconds">
-            <span class="number">{{ stopwatchTime.milliseconds | number: "3.0-0" }}</span>
-        </div>
-    </div>
-    <div class="actions">
-        <button mat-button *ngIf="!stopwatchService.isRunning" (click)="startStopwatch(); false">{{ "stopwatch.start" | translate }}</button>
-        <button mat-button *ngIf="!stopwatchService.isRunning" (click)="resetStopwatch(); false">{{ "stopwatch.reset" | translate }}</button>
-        <button mat-button *ngIf="stopwatchService.isRunning" (click)="lapStopwatch(); false">{{ "stopwatch.lap" | translate }}</button>
-        <button mat-button *ngIf="stopwatchService.isRunning" (click)="stopStopwatch(); false">{{ "stopwatch.stop" | translate }}</button>
-    </div>
+    <mat-card>
+        <mat-card-content class="stopwatch" *ngIf="stopwatchTime">
+            <span class="hours" *ngIf="stopwatchTime.hours">
+                <span class="number">{{ stopwatchTime.hours }}</span><span class="label">{{ "stopwatch.hourUnit" | translate }}</span>
+            </span>
+            <span class="minutes" *ngIf="stopwatchTime.minutes">
+                <span class="number">{{ stopwatchTime.minutes }}</span><span class="label">{{ "stopwatch.minuteUnit" | translate }}</span>
+            </span>
+            <span class="seconds">
+                <span class="number">{{ stopwatchTime.seconds }}</span><span class="label">{{ "stopwatch.secondUnit" | translate }}</span>
+            </span>
+            <span class="milliseconds">
+                <span class="number">{{ stopwatchTime.milliseconds | number: "3.0-0" }}</span>
+            </span>
+        </mat-card-content>
+        <mat-card-actions class="actions">
+            <button mat-button *ngIf="!stopwatchService.isRunning" (click)="startStopwatch(); false">{{ "stopwatch.start" | translate }}</button>
+            <button mat-button *ngIf="!stopwatchService.isRunning" (click)="resetStopwatch(); false">{{ "stopwatch.reset" | translate }}</button>
+            <button mat-button *ngIf="stopwatchService.isRunning" (click)="lapStopwatch(); false">{{ "stopwatch.lap" | translate }}</button>
+            <button mat-button *ngIf="stopwatchService.isRunning" (click)="stopStopwatch(); false">{{ "stopwatch.stop" | translate }}</button>
+        </mat-card-actions>
+    </mat-card>
 </div>
 <div class="laps">
-    <div *ngFor="let lap of stopwatchLaps">
-        {{ lap.hours }}{{ "stopwatch.hourUnit" | translate }}
-        {{ lap.minutes }}{{ "stopwatch.minuteUnit" | translate }}
-        {{ lap.seconds }}{{ "stopwatch.secondUnit" | translate }}
-        {{ lap.milliseconds }}
-    </div>
+    <mat-card *ngIf="stopwatchLaps.length">
+        <mat-card-content>
+            <p *ngFor="let lap of stopwatchLaps; index as i">
+                <span class="index">
+                    {{ i + 1 }}
+                </span>
+                <span class="hours" *ngIf="lap.hours">
+                    <span class="number">{{ lap.hours }}</span><span class="label">{{ "stopwatch.hourUnit" | translate }}</span>
+                </span>
+                <span class="minutes" *ngIf="lap.minutes">
+                    <span class="number">{{ lap.minutes }}</span><span class="label">{{ "stopwatch.minuteUnit" | translate }}</span>
+                </span>
+                <span class="seconds">
+                    <span class="number">{{ lap.seconds }}</span><span class="label">{{ "stopwatch.secondUnit" | translate }}</span>
+                </span>
+                <span class="milliseconds">
+                    <span class="number">{{ lap.milliseconds | number: "3.0-0" }}</span>
+                </span>
+            </p>
+        </mat-card-content>
+    </mat-card>
 </div>
