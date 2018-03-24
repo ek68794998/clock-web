@@ -23,6 +23,7 @@ import {
 } from "@angular/material";
 
 import { AppComponent } from "./appComponent";
+import { StopwatchService } from "../services/stopwatchService";
 import { ClockComponent } from "../pages/clock/clockComponent";
 import { SettingsComponent } from "../pages/settings/settingsComponent";
 import { StopwatchComponent } from "../pages/stopwatch/stopwatchComponent";
@@ -110,6 +111,7 @@ export function createTranslateLoader(http: HttpClient, baseHref: string) {
             useFactory: getBaseHref,
             deps: [ PlatformLocation ],
         },
+        StopwatchService,
         DecimalPipe,
     ],
     bootstrap: [ AppComponent ],
