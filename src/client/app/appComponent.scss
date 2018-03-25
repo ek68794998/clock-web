@@ -14,12 +14,12 @@
     @extend %flex-container;
     min-height: 100vh;
 
-    mat-sidenav-container, mat-sidenav-content {
+    .mat-sidenav-container, .mat-sidenav-content {
         @extend %flex-container;
         flex: 1;
     }
 
-    mat-sidenav {
+    .mat-sidenav {
         min-width: 220px;
 
         .mat-list-item {

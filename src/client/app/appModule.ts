@@ -20,6 +20,7 @@ import {
     MatIconModule,
     MatListModule,
     MatSidenavModule,
+    MatTableModule,
     MatToolbarModule,
 } from "@angular/material";
 
@@ -97,6 +98,7 @@ export function createTranslateLoader(http: HttpClient, baseHref: string) {
         MatIconModule,
         MatListModule,
         MatSidenavModule,
+        MatTableModule,
         MatToolbarModule,
     ],
     declarations: [

@@ -15,12 +15,26 @@
 <div class="world-clocks">
     <mat-card>
         <mat-card-content>
-            <p *ngFor="let timeZone of timeZones">
-                <span class="abbr">{{ worldClocks[timeZone].format("z") }}</span>
-                <span class="name">{{ timeZone }}</span>
-                <span class="offset">{{ worldClocks[timeZone].format("Z") }}</span>
-                <span class="time">{{ worldClocks[timeZone].format("h:mm:ss a") }}</span>
-            </p>
+            <mat-table #worldClocksTable [dataSource]="worldClocks">
+                <ng-container matColumnDef="displayName">
+                    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell> <!-- TODO i18n -->
+                    <mat-cell *matCellDef="let dataRow">{{ dataRow.shortName }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="fullName">
+                    <mat-header-cell *matHeaderCellDef>Complete name</mat-header-cell> <!-- TODO i18n -->
+                    <mat-cell *matCellDef="let dataRow">{{ dataRow.displayName }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="offset">
+                    <mat-header-cell *matHeaderCellDef>UTC Offset</mat-header-cell> <!-- TODO i18n -->
+                    <mat-cell *matCellDef="let dataRow">{{ dataRow.time.format("Z") }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="time">
+                    <mat-header-cell *matHeaderCellDef>Time</mat-header-cell> <!-- TODO i18n -->
+                    <mat-cell *matCellDef="let dataRow">{{ dataRow.time.format("h:mm:ss a [(]ddd MMM D, YYYY[)]") }}</mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="worldClockColumns"></mat-header-row>
+                <mat-row *matRowDef="let dataRow; index as i; columns: worldClockColumns" [class.last]="i == worldClocks.length - 1"></mat-row>
+            </mat-table>
         </mat-card-content>
     </mat-card>
 </div>
