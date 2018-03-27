@@ -6,7 +6,14 @@
         "toggleMenu": "Toggle menu"
     },
     "clock": {
-        "title": "Clock"
+        "title": "Clock",
+        "myTimeZone": "Your time zone: {{zone}}",
+        "worldClockTable": {
+            "headerDisplayName": "Name",
+            "headerCompleteName": "Complete name",
+            "headerOffset": "UTC offset",
+            "headerTime": "Time"
+        }
     },
     "timezones": {
         "title": "Time zones"
