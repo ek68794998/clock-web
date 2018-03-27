@@ -1,8 +1,16 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { ActivatedRoute } from "@angular/router";
 import { MatTable } from "@angular/material";
 import { TranslateService } from "@ngx-translate/core";
 
 import * as moment from "moment-timezone";
+
+enum ClockMode {
+    currentTime,
+
+    specifiedTime,
+}
 
 class WorldClockDataRow {
     public displayName: string;
@@ -17,7 +25,7 @@ class WorldClockDataRow {
     templateUrl: "clockComponent.html",
     styleUrls: [ "clockComponent.scss" ],
 })
-export class ClockComponent implements OnInit {
+export class ClockComponent implements OnInit, OnDestroy {
     private static readonly bufferMillis: number = 3;
 
     private static readonly millisInSecond: number = 1000;
@@ -33,6 +41,12 @@ export class ClockComponent implements OnInit {
 
     private currentTimeZone: string;
 
+    private initialized: boolean = false;
+
+    private mode: ClockMode;
+
+    private routeParamsSub: any;
+
     private worldClocks: WorldClockDataRow[] = [];
 
     private worldClocksDirty: boolean = false;
@@ -42,18 +56,49 @@ export class ClockComponent implements OnInit {
 
     private worldClockTimeZones: string[] = [ "Etc/UTC", "Asia/Tokyo", "America/Argentina/Buenos_Aires" ]; // TODO From cookies or default
 
-    constructor() {
+    constructor(
+        private route: ActivatedRoute,
+        private httpClient: HttpClient) {
+
         // TODO Load real gov't time from: https://www.time.gov/actualtime.cgi?disablecache=1521781911578&__lzbc__=tsemd5
     }
 
     ngOnInit(): void {
-        this.currentTime = new Date();
-        this.currentTimeZone = moment.tz.guess();
-
         let now = moment.tz(this.currentTime, this.currentTimeZone);
 
-        this.rebuildWorldClocks();
-        this.startUpdateLoop();
+        this.routeParamsSub = this.route.params.subscribe(params => {
+            this.mode = ClockMode.currentTime;
+            if ("time" in params) {
+                let time: string = params["time"];
+                let timeMoment: moment.Moment = moment(time, [ "YYYY-MM-DD[T]hh:mm:ss", "YYYY-MM-DD" ]);
+
+                if (timeMoment.isValid()) {
+                    this.currentTime = timeMoment.toDate();
+                    this.currentTimeZone = timeMoment.tz() || moment.tz.guess();
+
+                    this.mode = ClockMode.specifiedTime;
+                } else {
+                    console.error("Invalid time:", time);
+                }
+            }
+
+            if (this.mode == ClockMode.currentTime) {
+                this.currentTime = new Date();
+                this.currentTimeZone = moment.tz.guess();
+            }
+
+            this.rebuildWorldClocks();
+
+            if (this.mode == ClockMode.currentTime) {
+                this.startUpdateLoop();
+            }
+
+            this.initialized = true;
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.routeParamsSub.unsubscribe();
     }
 
     private rebuildWorldClocks(): void {
