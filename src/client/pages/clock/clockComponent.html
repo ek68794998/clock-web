@@ -1,15 +1,15 @@
 <div *ngIf="initialized">
     <div class="datetime">
         <div class="time">
-            <span class="clock">{{ currentTime | date: "h:mm:ss" }}</span>
-            <span class="meridian">{{ currentTime | date: "a" }}</span>
+            <span class="clock">{{ currentTime.format("h:mm:ss") }}</span>
+            <span class="meridian">{{ currentTime.format("a") }}</span>
         </div>
         <div class="date">
-            {{ currentTime | date: "MMM d yyyy" }}
+            {{ currentTime.format("MMM D YYYY") }}
         </div>
     </div>
     <div class="mat-typography caption time-zone">
-        {{ "clock.myTimeZone" | translate: { value: currentTimeZone } }}
+        {{ "clock.myTimeZone" | translate: { zone: myTimeZone } }}
     </div>
     <div class="world-clocks">
         <mat-card>

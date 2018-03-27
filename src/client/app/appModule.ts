@@ -35,6 +35,10 @@ import { TimeZonesComponent } from "../pages/timezones/timeZonesComponent";
 const isDebug: boolean = (process.env.NODE_ENV === "dev");
 const appRoutes: Routes = [
     {
+        path: "clock/:time/:zone",
+        component: ClockComponent,
+    },
+    {
         path: "clock/:time",
         component: ClockComponent,
     },

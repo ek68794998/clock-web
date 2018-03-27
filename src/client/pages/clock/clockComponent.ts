@@ -37,13 +37,13 @@ export class ClockComponent implements OnInit, OnDestroy {
         "time",
     ];
 
-    private currentTime: Date;
-
-    private currentTimeZone: string;
+    private currentTime: moment.Moment;
 
     private initialized: boolean = false;
 
     private mode: ClockMode;
+
+    private myTimeZone: string;
 
     private routeParamsSub: any;
 
@@ -64,27 +64,41 @@ export class ClockComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        let now = moment.tz(this.currentTime, this.currentTimeZone);
-
         this.routeParamsSub = this.route.params.subscribe(params => {
             this.mode = ClockMode.currentTime;
+            this.myTimeZone = moment.tz.guess();
+            this.currentTime = moment();
+
             if ("time" in params) {
-                let time: string = params["time"];
-                let timeMoment: moment.Moment = moment(time, [ "YYYY-MM-DD[T]hh:mm:ss", "YYYY-MM-DD" ]);
 
-                if (timeMoment.isValid()) {
-                    this.currentTime = timeMoment.toDate();
-                    this.currentTimeZone = timeMoment.tz() || moment.tz.guess();
+                let parsedTimeZone: string = this.myTimeZone;
+                if ("zone" in params) {
+                    let timeZones: string[] = moment.tz.names();
+                    let fuzzyMatchIndex: number = timeZones.findIndex(e => {
+                        return params.zone == e.replace(/[\/\s]/g, "_");
+                    });
 
-                    this.mode = ClockMode.specifiedTime;
-                } else {
-                    console.error("Invalid time:", time);
+                    if (fuzzyMatchIndex >= 0) {
+                        parsedTimeZone = timeZones[fuzzyMatchIndex];
+                    } else {
+                        console.error("Invalid time zone:", params.zone, "-- defaulting to local time zone");
+                    }
                 }
-            }
 
-            if (this.mode == ClockMode.currentTime) {
-                this.currentTime = new Date();
-                this.currentTimeZone = moment.tz.guess();
+                let time: string = params.time;
+                if (time !== "now") {
+                    // Parse using a custom default, then revert the default to the... default.
+                    moment.tz.setDefault(parsedTimeZone);
+                    let timeMoment: moment.Moment = moment(time, [ "YYYY-MM-DD[T]hh:mm:ss", "YYYY-MM-DD" ]);
+                    moment.tz.setDefault(this.myTimeZone);
+
+                    if (timeMoment.isValid()) {
+                        this.currentTime = moment(timeMoment).tz(this.myTimeZone);
+                        this.mode = ClockMode.specifiedTime;
+                    } else {
+                        console.error("Invalid time:", time, "-- defaulting to current time");
+                    }
+                }
             }
 
             this.rebuildWorldClocks();
@@ -102,11 +116,9 @@ export class ClockComponent implements OnInit, OnDestroy {
     }
 
     private rebuildWorldClocks(): void {
-        let now = moment.tz(this.currentTime, this.currentTimeZone);
-
         this.worldClocks.length = 0;
         this.worldClockTimeZones.forEach(timeZoneName => {
-            let time: moment.Moment = moment(now.tz(timeZoneName));
+            let time: moment.Moment = moment(this.currentTime).tz(timeZoneName);
 
             let shortName: string = timeZoneName;
             let shortNameStartIndex: number = timeZoneName.lastIndexOf("/");
@@ -136,8 +148,8 @@ export class ClockComponent implements OnInit, OnDestroy {
     }
 
     private updateTicks(): void {
-        let now: Date = new Date();
-        let diff: number = now.getTime() - this.currentTime.getTime();
+        let now: moment.Moment = moment();
+        let diff: number = now.diff(this.currentTime);
 
         if (this.worldClocksDirty) {
             this.worldClocksDirty = false;
