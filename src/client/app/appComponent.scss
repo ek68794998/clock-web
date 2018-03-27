@@ -61,6 +61,31 @@
     background: #fff2;
     margin-top: 16px;
     padding: 16px;
+
+    > * {
+        opacity: 0.4;
+        transition: 0.2s opacity ease-in-out;
+    }
+
+    &:hover > * {
+        opacity: 1.0;
+    }
+
+    a {
+        color: #6cf;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .left {
+        float: left;
+    }
+
+    .right {
+        float: right;
+    }
 }
 
 @media only screen and (max-width: ($responsive-width-min)) {
