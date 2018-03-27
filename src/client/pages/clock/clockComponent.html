@@ -1,9 +1,40 @@
-<div class="datetime">
-    <div class="time">
-        <span class="clock">{{ currentTime | date: "h:mm:ss" }}</span>
-        <span class="meridian">{{ currentTime | date: "a" }}</span>
+<div *ngIf="initialized">
+    <div class="datetime">
+        <div class="time">
+            <span class="clock">{{ currentTime.format("h:mm:ss") }}</span>
+            <span class="meridian">{{ currentTime.format("a") }}</span>
+        </div>
+        <div class="date">
+            {{ currentTime.format("MMM D YYYY") }}
+        </div>
     </div>
-    <div class="date">
-        {{ currentTime | date: "MMM d yyyy" }}
+    <div class="mat-typography caption time-zone">
+        {{ "clock.myTimeZone" | translate: { zone: myTimeZone } }}
+    </div>
+    <div class="world-clocks">
+        <mat-card>
+            <mat-card-content>
+                <mat-table #worldClocksTable [dataSource]="worldClocks">
+                    <ng-container matColumnDef="displayName">
+                        <mat-header-cell *matHeaderCellDef>{{ "clock.worldClockTable.headerDisplayName" | translate }}</mat-header-cell>
+                        <mat-cell *matCellDef="let dataRow">{{ dataRow.shortName }}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="fullName">
+                        <mat-header-cell *matHeaderCellDef>{{ "clock.worldClockTable.headerCompleteName" | translate }}</mat-header-cell>
+                        <mat-cell *matCellDef="let dataRow">{{ dataRow.displayName }}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="offset">
+                        <mat-header-cell *matHeaderCellDef>{{ "clock.worldClockTable.headerOffset" | translate }}</mat-header-cell>
+                        <mat-cell *matCellDef="let dataRow">{{ dataRow.time.format("Z") }}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="time">
+                        <mat-header-cell *matHeaderCellDef>{{ "clock.worldClockTable.headerTime" | translate }}</mat-header-cell>
+                        <mat-cell *matCellDef="let dataRow">{{ dataRow.time.format("h:mm:ss a [(]ddd MMM D, YYYY[)]") }}</mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="worldClockColumns"></mat-header-row>
+                    <mat-row *matRowDef="let dataRow; index as i; columns: worldClockColumns" [class.last]="i == worldClocks.length - 1"></mat-row>
+                </mat-table>
+            </mat-card-content>
+        </mat-card>
     </div>
 </div>

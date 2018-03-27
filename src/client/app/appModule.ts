@@ -20,6 +20,7 @@ import {
     MatIconModule,
     MatListModule,
     MatSidenavModule,
+    MatTableModule,
     MatToolbarModule,
 } from "@angular/material";
 
@@ -34,8 +35,15 @@ import { TimeZonesComponent } from "../pages/timezones/timeZonesComponent";
 const isDebug: boolean = (process.env.NODE_ENV === "dev");
 const appRoutes: Routes = [
     {
+        path: "clock/:time/:zone",
+        component: ClockComponent,
+    },
+    {
+        path: "clock/:time",
+        component: ClockComponent,
+    },
+    {
         path: "clock",
-        pathMatch: "full",
         component: ClockComponent,
     },
     /*
@@ -52,7 +60,6 @@ const appRoutes: Routes = [
     */
     {
         path: "stopwatch",
-        pathMatch: "full",
         component: StopwatchComponent,
     },
     /*
@@ -97,6 +104,7 @@ export function createTranslateLoader(http: HttpClient, baseHref: string) {
         MatIconModule,
         MatListModule,
         MatSidenavModule,
+        MatTableModule,
         MatToolbarModule,
     ],
     declarations: [

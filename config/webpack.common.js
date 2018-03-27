@@ -67,7 +67,7 @@ module.exports = function(options, webpackOptions) {
                     loader: "raw-loader",
                 },
                 { test: /\.html$/, loader: "raw-loader" },
-                { test: /\.json$/, loader: "raw-loader" },
+                { test: /\.json$/, loader: "json-loader" },
             ],
         },
         plugins: [

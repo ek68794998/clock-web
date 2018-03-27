@@ -1,4 +1,6 @@
-$viewport-horizontal-padding: 16px;
+$standard-padding: 16px;
+
+$viewport-horizontal-padding: $standard-padding;
 $viewport-width-min: 460px + $viewport-horizontal-padding;
 $viewport-width-max: 1600px + $viewport-horizontal-padding;
 $viewport-horizontal-inset: 6vw;

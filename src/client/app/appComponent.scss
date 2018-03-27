@@ -14,12 +14,12 @@
     @extend %flex-container;
     min-height: 100vh;
 
-    mat-sidenav-container, mat-sidenav-content {
+    .mat-sidenav-container, .mat-sidenav-content {
         @extend %flex-container;
         flex: 1;
     }
 
-    mat-sidenav {
+    .mat-sidenav {
         min-width: 220px;
 
         .mat-list-item {
@@ -61,6 +61,31 @@
     background: #fff2;
     margin-top: 16px;
     padding: 16px;
+
+    > * {
+        opacity: 0.4;
+        transition: 0.2s opacity ease-in-out;
+    }
+
+    &:hover > * {
+        opacity: 1.0;
+    }
+
+    a {
+        color: #6cf;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .left {
+        float: left;
+    }
+
+    .right {
+        float: right;
+    }
 }
 
 @media only screen and (max-width: ($responsive-width-min)) {

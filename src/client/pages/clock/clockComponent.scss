@@ -29,6 +29,24 @@ $date-size: 4vw;
     }
 }
 
+.time-zone {
+    opacity: 0.3;
+    padding: 0 $standard-padding;
+}
+
+.world-clocks {
+    margin-top: $standard-padding;
+
+    .mat-card {
+        padding-bottom: 8px;
+        padding-top: 8px;
+    }
+
+    .mat-row.last {
+        border-bottom: none;
+    }
+}
+
 @media only screen and (min-width: $viewport-width-max) {
     .datetime {
         .time {
