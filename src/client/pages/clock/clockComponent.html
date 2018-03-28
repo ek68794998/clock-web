@@ -2,7 +2,7 @@
     <div class="datetime">
         <div class="time">
             <span class="clock">{{ currentTime.format("h:mm:ss") }}</span>
-            <span class="meridian">{{ currentTime.format("a") }}</span>
+            <span class="meridian">{{ currentTime.format("a").toUpperCase() }}</span>
         </div>
         <div class="date">
             {{ currentTime.format("MMM D YYYY") }}
