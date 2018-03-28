@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { ActivatedRoute } from "@angular/router";
 import { MatTable } from "@angular/material";
 import { TranslateService } from "@ngx-translate/core";
+import { DragulaService } from "ng2-dragula";
 
 import * as moment from "moment-timezone";
 
@@ -14,6 +15,8 @@ enum ClockMode {
 
 class WorldClockDataRow {
     public displayName: string;
+
+    public id: string;
 
     public shortName: string;
 
@@ -29,6 +32,8 @@ export class ClockComponent implements OnInit, OnDestroy {
     private static readonly bufferMillis: number = 3;
 
     private static readonly millisInSecond: number = 1000;
+
+    private static readonly worldClockBagName: string = "world-clock-drag";
 
     private readonly worldClockColumns: string[] = [
         "displayName",
@@ -58,7 +63,8 @@ export class ClockComponent implements OnInit, OnDestroy {
 
     constructor(
         private route: ActivatedRoute,
-        private httpClient: HttpClient) {
+        private httpClient: HttpClient,
+        private dragulaService: DragulaService) {
 
         // TODO Load real gov't time from: https://www.time.gov/actualtime.cgi?disablecache=1521781911578&__lzbc__=tsemd5
     }
@@ -109,10 +115,67 @@ export class ClockComponent implements OnInit, OnDestroy {
 
             this.initialized = true;
         });
+
+        this.dragulaService.setOptions(ClockComponent.worldClockBagName, {
+            moves: (el: HTMLElement, source: HTMLElement, handle: HTMLElement, sibling: HTMLElement) =>
+                this.dragulaCanMove(ClockComponent.worldClockBagName, el, source, handle, sibling),
+            accepts: (el: HTMLElement, target: HTMLElement, source: HTMLElement, sibling: HTMLElement) =>
+                this.dragulaCanAccept(ClockComponent.worldClockBagName, el, target, source, sibling),
+        });
+
+        this.dragulaService.drop.subscribe(data => {
+            let bag: string = data[0];
+            let el: HTMLElement = data[1];
+            let target: HTMLElement = data[2];
+            let source: HTMLElement = data[3];
+            let sibling: HTMLElement = data[4];
+
+            this.dragulaOnDrop(bag, el, target, source, sibling);
+        });
     }
 
     ngOnDestroy(): void {
         this.routeParamsSub.unsubscribe();
+    }
+
+    private dragulaCanAccept(bag: string, el: Element, target: Element, source: Element, sibling: Element): boolean {
+        if (bag == ClockComponent.worldClockBagName) {
+            // Only allow standard, non-header rows to be dragged onto
+            return !sibling || sibling.tagName.toLowerCase() === "mat-row";
+        }
+
+        return true;
+    }
+
+    private dragulaCanMove(bag: string, el: Element, source: Element, handle: Element, sibling: Element): boolean {
+        if (bag == ClockComponent.worldClockBagName) {
+            // Only allow standard, non-header rows to be dragged
+            return el && el.tagName.toLowerCase() === "mat-row";
+        }
+
+        return true;
+    }
+
+    private dragulaOnDrop(bag: string, el: Element, target: Element, source: Element, sibling: Element): void {
+        let newTimeZoneList: string[] = [];
+
+        let rows: HTMLCollection = source.children;
+        for (let i = 0; i < rows.length; i++) {
+            let row: Element = rows[i];
+            if (!this.dragulaCanMove(bag, row, target, source, sibling)) {
+                continue;
+            }
+
+            let timeZoneAttribute = row.attributes["time-zone"];
+            if (!timeZoneAttribute || !timeZoneAttribute.value) {
+                continue;
+            }
+
+            newTimeZoneList.push(timeZoneAttribute.value);
+        }
+
+        this.worldClockTimeZones = newTimeZoneList;
+        this.rebuildWorldClocks();
     }
 
     private rebuildWorldClocks(): void {
@@ -135,11 +198,17 @@ export class ClockComponent implements OnInit, OnDestroy {
             }
 
             this.worldClocks.push({
+                id: timeZoneName,
                 displayName: longName,
                 shortName: shortName,
                 time: time,
             });
         });
+
+        console.log("Re-rendering rows?", this.initialized);
+        if (this.initialized) {
+            this.worldClocksTable.renderRows();
+        }
     }
 
     private startUpdateLoop(): void {

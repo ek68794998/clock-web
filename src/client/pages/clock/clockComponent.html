@@ -14,7 +14,7 @@
     <div class="world-clocks">
         <mat-card>
             <mat-card-content>
-                <mat-table #worldClocksTable [dataSource]="worldClocks">
+                <mat-table #worldClocksTable [dataSource]="worldClocks" [dragula]="'world-clock-drag'">
                     <ng-container matColumnDef="displayName">
                         <mat-header-cell *matHeaderCellDef>{{ "clock.worldClockTable.headerDisplayName" | translate }}</mat-header-cell>
                         <mat-cell *matCellDef="let dataRow">{{ dataRow.shortName }}</mat-cell>
@@ -32,7 +32,7 @@
                         <mat-cell *matCellDef="let dataRow">{{ dataRow.time.format("h:mm:ss a [(]ddd MMM D, YYYY[)]") }}</mat-cell>
                     </ng-container>
                     <mat-header-row *matHeaderRowDef="worldClockColumns"></mat-header-row>
-                    <mat-row *matRowDef="let dataRow; index as i; columns: worldClockColumns" [class.last]="i == worldClocks.length - 1"></mat-row>
+                    <mat-row *matRowDef="let dataRow; index as i; columns: worldClockColumns" [attr.time-zone]="dataRow.id" [class.last]="i == worldClocks.length - 1"></mat-row>
                 </mat-table>
             </mat-card-content>
         </mat-card>

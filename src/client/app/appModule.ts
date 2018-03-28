@@ -7,6 +7,7 @@ import { HttpClient, HttpClientModule }     from "@angular/common/http";
 import { NgbModule }                        from "@ng-bootstrap/ng-bootstrap";
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader }              from "@ngx-translate/http-loader";
+import { DragulaModule }                    from "ng2-dragula";
 
 import {
     APP_BASE_HREF,
@@ -106,6 +107,7 @@ export function createTranslateLoader(http: HttpClient, baseHref: string) {
         MatSidenavModule,
         MatTableModule,
         MatToolbarModule,
+        DragulaModule,
     ],
     declarations: [
         AppComponent,

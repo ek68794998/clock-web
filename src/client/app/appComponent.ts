@@ -6,7 +6,7 @@ import { TranslateService } from "@ngx-translate/core";
     encapsulation: ViewEncapsulation.None,
     selector: "div#app",
     templateUrl: "appComponent.html",
-    styleUrls: [ "../assets/appStyles.scss", "appComponent.scss" ],
+    styleUrls: [ "../../../node_modules/dragula/dist/dragula.min.css", "../assets/appStyles.scss", "appComponent.scss" ],
 })
 export class AppComponent {
     private static readonly userLanguageParamKey = "hl";
