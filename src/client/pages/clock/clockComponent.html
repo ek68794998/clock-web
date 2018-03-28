@@ -31,10 +31,23 @@
                         <mat-header-cell *matHeaderCellDef>{{ "clock.worldClockTable.headerTime" | translate }}</mat-header-cell>
                         <mat-cell *matCellDef="let dataRow">{{ dataRow.time.format("h:mm:ss a [(]ddd MMM D, YYYY[)]") }}</mat-cell>
                     </ng-container>
+                    <ng-container matColumnDef="actions">
+                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                        <mat-cell *matCellDef="let dataRow">
+                            <button mat-button (click)="onWorldClockRemoved(dataRow)" *ngIf="dataRow.canDelete">
+                                <mat-icon>clear</mat-icon> {{ "clock.worldClockTable.labelRemoveRow" | translate }}
+                            </button>
+                        </mat-cell>
+                    </ng-container>
                     <mat-header-row *matHeaderRowDef="worldClockColumns"></mat-header-row>
                     <mat-row *matRowDef="let dataRow; index as i; columns: worldClockColumns" [attr.time-zone]="dataRow.id" [class.last]="i == worldClocks.length - 1"></mat-row>
                 </mat-table>
             </mat-card-content>
+            <mat-card-actions>
+                <button mat-button (click)="onWorldClockAdded()">
+                    <mat-icon>add</mat-icon> {{ "clock.worldClockTable.labelAddRow" | translate }}
+                </button>
+            </mat-card-actions>
         </mat-card>
     </div>
 </div>

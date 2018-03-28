@@ -12,7 +12,9 @@
             "headerDisplayName": "Name",
             "headerCompleteName": "Complete name",
             "headerOffset": "UTC offset",
-            "headerTime": "Time"
+            "headerTime": "Time",
+            "labelRemoveRow": "Remove",
+            "labelAddRow": "Add new clock"
         }
     },
     "timezones": {

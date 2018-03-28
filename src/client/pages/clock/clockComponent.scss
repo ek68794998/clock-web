@@ -38,8 +38,11 @@ $date-size: 4vw;
     margin-top: $standard-padding;
 
     .mat-card {
-        padding-bottom: 8px;
         padding-top: 8px;
+
+        .mat-card-content {
+            margin-bottom: 0;
+        }
     }
 
     .mat-row.last {

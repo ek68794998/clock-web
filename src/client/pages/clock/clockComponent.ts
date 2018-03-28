@@ -14,6 +14,8 @@ enum ClockMode {
 }
 
 class WorldClockDataRow {
+    public canDelete: boolean;
+
     public displayName: string;
 
     public id: string;
@@ -31,6 +33,8 @@ class WorldClockDataRow {
 export class ClockComponent implements OnInit, OnDestroy {
     private static readonly bufferMillis: number = 3;
 
+    private static readonly defaultTimeZone: string = "Etc/UTC";
+
     private static readonly millisInSecond: number = 1000;
 
     private static readonly worldClockBagName: string = "world-clock-drag";
@@ -40,6 +44,7 @@ export class ClockComponent implements OnInit, OnDestroy {
         "fullName",
         "offset",
         "time",
+        "actions",
     ];
 
     private currentTime: moment.Moment;
@@ -136,6 +141,7 @@ export class ClockComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.routeParamsSub.unsubscribe();
+        this.dragulaService.destroy(ClockComponent.worldClockBagName);
     }
 
     private dragulaCanAccept(bag: string, el: Element, target: Element, source: Element, sibling: Element): boolean {
@@ -178,6 +184,18 @@ export class ClockComponent implements OnInit, OnDestroy {
         this.rebuildWorldClocks();
     }
 
+    private onWorldClockAdded(dataRow: WorldClockDataRow): void {
+        // TODO
+    }
+
+    private onWorldClockRemoved(dataRow: WorldClockDataRow): void {
+        let index: number = this.worldClockTimeZones.indexOf(dataRow.id);
+        if (index > -1) {
+            this.worldClockTimeZones.splice(index, 1);
+            this.rebuildWorldClocks();
+        }
+    }
+
     private rebuildWorldClocks(): void {
         this.worldClocks.length = 0;
         this.worldClockTimeZones.forEach(timeZoneName => {
@@ -198,6 +216,7 @@ export class ClockComponent implements OnInit, OnDestroy {
             }
 
             this.worldClocks.push({
+                canDelete: timeZoneName != ClockComponent.defaultTimeZone,
                 id: timeZoneName,
                 displayName: longName,
                 shortName: shortName,
@@ -205,7 +224,6 @@ export class ClockComponent implements OnInit, OnDestroy {
             });
         });
 
-        console.log("Re-rendering rows?", this.initialized);
         if (this.initialized) {
             this.worldClocksTable.renderRows();
         }
