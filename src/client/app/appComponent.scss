@@ -94,6 +94,12 @@
             display: none;
         }
     }
+
+    #site-header {
+        .right {
+            float: left;
+        }
+    }
 }
 
 @media only screen and (min-width: ($responsive-width-min + 1px)) {
