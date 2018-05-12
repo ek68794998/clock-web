@@ -33,11 +33,11 @@ class WorldClockDataRow {
 export class ClockComponent implements OnInit, OnDestroy {
     private static readonly bufferMillis: number = 3;
 
-    private static readonly defaultTimeZone: string = "Etc/UTC";
-
     private static readonly millisInSecond: number = 1000;
 
     private static readonly worldClockBagName: string = "world-clock-drag";
+
+    private readonly defaultTimeZone: string = "Etc/UTC";
 
     private readonly worldClockColumns: string[] = [
         "displayName",
@@ -66,6 +66,8 @@ export class ClockComponent implements OnInit, OnDestroy {
 
     private worldClockTimeZones: string[] = [ "Etc/UTC", "Asia/Tokyo", "America/Argentina/Buenos_Aires" ]; // TODO From cookies or default
 
+    private worldTimeZonesList: string[];
+
     constructor(
         private route: ActivatedRoute,
         private httpClient: HttpClient,
@@ -79,18 +81,17 @@ export class ClockComponent implements OnInit, OnDestroy {
             this.mode = ClockMode.currentTime;
             this.myTimeZone = moment.tz.guess();
             this.currentTime = moment();
+            this.worldTimeZonesList = moment.tz.names();
 
             if ("time" in params) {
-
                 let parsedTimeZone: string = this.myTimeZone;
                 if ("zone" in params) {
-                    let timeZones: string[] = moment.tz.names();
-                    let fuzzyMatchIndex: number = timeZones.findIndex(e => {
+                    let fuzzyMatchIndex: number = this.worldTimeZonesList.findIndex(e => {
                         return params.zone == e.replace(/[\/\s]/g, "_");
                     });
 
                     if (fuzzyMatchIndex >= 0) {
-                        parsedTimeZone = timeZones[fuzzyMatchIndex];
+                        parsedTimeZone = this.worldTimeZonesList[fuzzyMatchIndex];
                     } else {
                         console.error("Invalid time zone:", params.zone, "-- defaulting to local time zone");
                     }
@@ -216,7 +217,7 @@ export class ClockComponent implements OnInit, OnDestroy {
             }
 
             this.worldClocks.push({
-                canDelete: timeZoneName != ClockComponent.defaultTimeZone,
+                canDelete: timeZoneName != this.defaultTimeZone,
                 id: timeZoneName,
                 displayName: longName,
                 shortName: shortName,

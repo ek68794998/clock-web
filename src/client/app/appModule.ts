@@ -16,9 +16,12 @@ import {
 } from "@angular/common";
 
 import {
+    MatAutocompleteModule,
     MatButtonModule,
     MatCardModule,
+    MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
     MatListModule,
     MatSidenavModule,
     MatTableModule,
@@ -100,9 +103,12 @@ export function createTranslateLoader(http: HttpClient, baseHref: string) {
                 deps: [ HttpClient, APP_BASE_HREF ],
             },
         }),
+        MatAutocompleteModule,
         MatButtonModule,
         MatCardModule,
+        MatFormFieldModule,
         MatIconModule,
+        MatInputModule,
         MatListModule,
         MatSidenavModule,
         MatTableModule,

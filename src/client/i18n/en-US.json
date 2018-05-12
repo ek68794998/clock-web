@@ -13,8 +13,9 @@
             "headerCompleteName": "Complete name",
             "headerOffset": "UTC offset",
             "headerTime": "Time",
+            "labelSearchTimeZones": "Search for a time zone",
             "labelRemoveRow": "Remove",
-            "labelAddRow": "Add new clock"
+            "labelAddRow": "Add"
         }
     },
     "timezones": {

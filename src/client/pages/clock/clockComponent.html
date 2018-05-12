@@ -44,6 +44,14 @@
                 </mat-table>
             </mat-card-content>
             <mat-card-actions>
+                <mat-form-field>
+                    <input type="text" matInput [matAutocomplete]="timeZoneSelector">
+                </mat-form-field>
+                <mat-autocomplete #timeZoneSelector="matAutocomplete">
+                    <mat-option *ngFor="let option of worldTimeZonesList" [disabled]="worldClockTimeZones.indexOf(option) >= 0" [value]="option">
+                        {{ option }}
+                    </mat-option>
+                </mat-autocomplete>
                 <button mat-button (click)="onWorldClockAdded()">
                     <mat-icon>add</mat-icon> {{ "clock.worldClockTable.labelAddRow" | translate }}
                 </button>
