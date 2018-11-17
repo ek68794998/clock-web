@@ -1,7 +1,7 @@
 $standard-padding: 16px;
 
 $viewport-horizontal-padding: $standard-padding;
-$viewport-width-min: 460px + $viewport-horizontal-padding;
+$viewport-width-min: 346px + $viewport-horizontal-padding;
 $viewport-width-max: 1600px + $viewport-horizontal-padding;
 $viewport-horizontal-inset: 6vw;
 $page-width-max: ($viewport-width-max / (1.0 - 2 * $viewport-horizontal-inset / 100vw));

@@ -30,16 +30,18 @@ export class ClockComponent implements OnInit, OnDestroy {
 
     private static readonly millisInSecond: number = 1000;
 
-    private readonly worldClockColumns: string[] = [
+    protected readonly worldClockColumns: string[] = [
         "displayName",
         "fullName",
         "offset",
         "time",
     ];
 
-    private currentTime: moment.Moment;
+    protected readonly language: string;
 
-    private initialized: boolean = false;
+    protected initialized: boolean = false;
+
+    private currentTime: moment.Moment;
 
     private mode: ClockMode;
 
@@ -58,7 +60,10 @@ export class ClockComponent implements OnInit, OnDestroy {
 
     constructor(
         private route: ActivatedRoute,
-        private httpClient: HttpClient) {
+        private httpClient: HttpClient,
+        translate: TranslateService) {
+
+        this.language = translate.currentLang;
 
         // TODO Load real gov't time from: https://www.time.gov/actualtime.cgi?disablecache=1521781911578&__lzbc__=tsemd5
     }
@@ -129,7 +134,7 @@ export class ClockComponent implements OnInit, OnDestroy {
             shortName = shortName.replace(/_/g, " ");
 
             let longName: string = timeZoneName;
-            let abbr: string = time.format("z");
+            let abbr: string = time.locale(this.language).format("z");
             if (abbr != shortName && abbr != longName && !abbr.match(/^[+-]?[0-9]+/)) {
                 longName += ` (${abbr})`;
             }

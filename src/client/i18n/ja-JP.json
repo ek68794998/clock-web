@@ -1,0 +1,37 @@
+{
+    "app": {
+        "name": "Jikan"
+    },
+    "menus": {
+        "toggleMenu": "メニューをトグル"
+    },
+    "clock": {
+        "title": "時計",
+        "myTimeZone": "タイムゾーン：{{zone}}",
+        "worldClockTable": {
+            "headerDisplayName": "表示名",
+            "headerCompleteName": "タイムゾーンのID",
+            "headerOffset": "オフセット",
+            "headerTime": "時刻"
+        }
+    },
+    "timezones": {
+        "title": "タイムゾーン"
+    },
+    "timer": {
+        "title": "タイマー"
+    },
+    "stopwatch": {
+        "title": "ストップウォッチ",
+        "hourUnit": "時",
+        "minuteUnit": "分",
+        "secondUnit": "秒",
+        "start": "スタート",
+        "stop": "一時停止",
+        "lap": "ラップ",
+        "reset": "リセット"
+    },
+    "settings": {
+        "title": "設定"
+    }
+}

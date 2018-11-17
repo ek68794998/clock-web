@@ -17,7 +17,7 @@ $date-size: 4vw;
         }
 
         .meridian {
-            margin-left: 16px;
+            margin-left: 8px;
             font-size: $meridian-size;
             font-weight: 300;
         }
@@ -44,6 +44,34 @@ $date-size: 4vw;
 
     .mat-row.last {
         border-bottom: none;
+    }
+}
+
+@media only screen and (max-width: ($responsive-width-min)) {
+    .datetime {
+        align-items: center;
+        flex-direction: column;
+        margin-bottom: 24px;
+
+        .time {
+            .clock {
+                font-size: 20vw;
+            }
+
+            .meridian {
+                font-size: 6vw;
+            }
+        }
+
+        .date {
+            font-size: 7vw;
+        }
+    }
+
+    .world-clocks {
+        .cdk-column-fullName {
+            display: none;
+        }
     }
 }
 
