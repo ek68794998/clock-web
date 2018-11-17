@@ -16,7 +16,10 @@ export class AppComponent {
         "ja": "ja-JP",
     };
 
-    private static readonly availableLanguages: string[] = [ "en-US" ];
+    private static readonly availableLanguages: string[] = [
+        "en-US",
+        "ja-JP",
+    ];
 
     protected readonly menuOptions: any[] = [
         {
@@ -57,8 +60,6 @@ export class AppComponent {
         if (language in AppComponent.languageMapping) {
             language = AppComponent.languageMapping[language];
         }
-
-        console.log("Language:", language);
 
         if (!language || AppComponent.availableLanguages.indexOf(language) < 0) {
             language = defaultLanguage;
