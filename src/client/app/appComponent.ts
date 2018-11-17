@@ -13,11 +13,12 @@ export class AppComponent {
 
     private static readonly languageMapping: { [key: string]: string; } = {
         "en": "en-US",
+        "ja": "ja-JP",
     };
 
     private static readonly availableLanguages: string[] = [ "en-US" ];
 
-    private readonly menuOptions: any[] = [
+    protected readonly menuOptions: any[] = [
         {
             route: "clock",
             label: "clock.title",
@@ -49,13 +50,15 @@ export class AppComponent {
         */
     ];
 
-    private get menuKeys(): string[] {
-        return Object.keys(this.menuOptions);
-    }
-
     constructor(private translate: TranslateService) {
         let defaultLanguage: string = AppComponent.availableLanguages[0];
         let language: string = this.getUserLanguage();
+
+        if (language in AppComponent.languageMapping) {
+            language = AppComponent.languageMapping[language];
+        }
+
+        console.log("Language:", language);
 
         if (!language || AppComponent.availableLanguages.indexOf(language) < 0) {
             language = defaultLanguage;
@@ -66,22 +69,34 @@ export class AppComponent {
         translate.use(language);
     }
 
+    private static getUrlParameter(name): string {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+        var results = regex.exec(location.search);
+
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    };
+
     private getUserLanguage(): string {
-        let language: string = null;
-        if ("locale" in document) {
-            language = document["locale"].toString();
-        } else {
-            let browserLanguage = this.translate.getBrowserLang();
-            if (browserLanguage) {
-                language = browserLanguage;
-            } else {
-                language =
-                    navigator.languages && navigator.languages.length > 0
-                        ? navigator.languages[0]
-                        : (navigator.language || navigator["userLanguage"]);
-            }
+        const overrideLanguage: string =
+            AppComponent.getUrlParameter(AppComponent.userLanguageParamKey);
+
+        if (overrideLanguage) {
+            return overrideLanguage;
         }
 
-        return language;
+        if ("locale" in document) {
+            return document["locale"].toString();
+        }
+
+        const browserLanguage = this.translate.getBrowserLang();
+        if (browserLanguage) {
+            return browserLanguage
+        }
+
+        return navigator.languages && navigator.languages.length > 0
+                    ? navigator.languages[0]
+                    : (navigator.language || navigator["userLanguage"]);
     }
 }
