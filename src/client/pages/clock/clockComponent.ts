@@ -28,6 +28,9 @@ class WorldClockDataRow {
 export class ClockComponent implements OnInit, OnDestroy {
     private static readonly bufferMillis: number = 3;
 
+    private static readonly defaultWorldClockTimeZones: string[] =
+        [ "Etc/UTC", "Asia/Tokyo", "America/Argentina/Buenos_Aires" ];
+
     private static readonly millisInSecond: number = 1000;
 
     protected readonly worldClockColumns: string[] = [
@@ -53,10 +56,7 @@ export class ClockComponent implements OnInit, OnDestroy {
 
     private worldClocksDirty: boolean = false;
 
-    @ViewChild("worldClocksTable")
-    private worldClocksTable: MatTable<WorldClockDataRow[]>;
-
-    private worldClockTimeZones: string[] = [ "Etc/UTC", "Asia/Tokyo", "America/Argentina/Buenos_Aires" ]; // TODO From cookies or default
+    private worldClockTimeZones: string[] = ClockComponent.defaultWorldClockTimeZones;
 
     constructor(
         private route: ActivatedRoute,
@@ -75,16 +75,38 @@ export class ClockComponent implements OnInit, OnDestroy {
             this.currentTime = moment();
 
             if ("time" in params) {
-
                 let parsedTimeZone: string = this.myTimeZone;
                 if ("zone" in params) {
                     let timeZones: string[] = moment.tz.names();
-                    let fuzzyMatchIndex: number = timeZones.findIndex(e => {
-                        return params.zone == e.replace(/[\/\s]/g, "_");
+
+                    timeZones.unshift("");
+
+                    timeZones.sort((a: string, b: string) => {
+                        const computeScore: (v: string) => number = (v: string) => {
+                            if (!v || !v.length) {
+                                return 0;
+                            }
+
+                            const valueWithoutSlashes: string = v.replace(/[\/\s]/g, "_");
+
+                            if (params.zone === valueWithoutSlashes) {
+                                return 100;
+                            }
+
+                            const prefixEndIndex: number = valueWithoutSlashes.indexOf("_") + 1;
+
+                            if (prefixEndIndex > 0 && params.zone === valueWithoutSlashes.substr(prefixEndIndex)) {
+                                return 50;
+                            }
+
+                            return 0;
+                        };
+
+                        return computeScore(b) - computeScore(a);
                     });
 
-                    if (fuzzyMatchIndex >= 0) {
-                        parsedTimeZone = timeZones[fuzzyMatchIndex];
+                    if (timeZones[0] && timeZones[0].length) {
+                        parsedTimeZone = timeZones[0];
                     } else {
                         console.error("Invalid time zone:", params.zone, "-- defaulting to local time zone");
                     }
@@ -92,9 +114,18 @@ export class ClockComponent implements OnInit, OnDestroy {
 
                 let time: string = params.time;
                 if (time !== "now") {
+                    const validTimeFormats: string[] = [
+                        "YYYY-MM-DD[T]HH:mm:ss",
+                        "YYYY-MM-DD[T]HH:mm",
+                        "YYYY-MM-DD",
+                        "YYYYMMDDHHmmss",
+                        "YYYYMMDDHHmm",
+                        "YYYYMMDD",
+                    ];
+
                     // Parse using a custom default, then revert the default to the... default.
                     moment.tz.setDefault(parsedTimeZone);
-                    let timeMoment: moment.Moment = moment(time, [ "YYYY-MM-DD[T]hh:mm:ss", "YYYY-MM-DD" ]);
+                    let timeMoment: moment.Moment = moment(time, validTimeFormats);
                     moment.tz.setDefault(this.myTimeZone);
 
                     if (timeMoment.isValid()) {
