@@ -28,8 +28,7 @@ class WorldClockDataRow {
 export class ClockComponent implements OnInit, OnDestroy {
     private static readonly bufferMillis: number = 3;
 
-    private static readonly defaultWorldClockTimeZones: string[] =
-        [ "Etc/UTC", "Asia/Tokyo", "America/Argentina/Buenos_Aires" ];
+    private static readonly defaultWorldClockTimeZones: string[] = [ "Etc/UTC" ];
 
     private static readonly millisInSecond: number = 1000;
 
